@@ -18,6 +18,10 @@ https://github.com/radxa-pkg/rknn2/releases
 
 
 
-```
- python3 yolov8.py --model_path ../model/yolov8.rknn --img_save --target rk3588
-```
+docker run --rm -it \
+  --net=host \
+  --privileged \
+  yolov8-rknn-demo \
+  /bin/bash
+
+python3 yolov8.py --model_path ../model/yolov8.rknn --img_save --target rk3588
