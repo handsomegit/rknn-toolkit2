@@ -1,0 +1,29 @@
+networks:
+    1panel-network:
+        external: true
+services:
+  codeproject-ai-server:
+    image: codeproject/ai-server:arm64-2.9.7
+    container_name: codeproject-ai-server.scet
+    networks:
+      - 1panel-network
+    restart: unless-stopped
+    ports:
+      - "32168:32168"
+    volumes:
+      - ./data/:/etc/codeproject/ai              # 持久化数据配置目录
+      - ./modules/:/app/modules                  # 模块文件夹
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - TZ=Asia/Shanghai
+    deploy:
+      resources:
+        limits:
+          cpus: '4'
+          memory: 4g
+
+
+    devices:
+      - /dev/dri
+      - /dev/npu:/dev/npu
+    privileged: true
