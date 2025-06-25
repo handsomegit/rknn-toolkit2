@@ -10,3 +10,14 @@ https://docs.radxa.com/rock5/rock5c/app-development/rknn_toolkit_lite2_yolov8
 
 https://github.com/radxa-pkg/rknn_model_zoo/releases/tag/1.6.0-1
 https://github.com/radxa-pkg/rknn2/releases
+
+
+
+
+
+
+
+
+```
+ python3 yolov8.py --model_path ../model/yolov8.rknn --img_save --target rk3588
+```
