@@ -25,3 +25,12 @@ docker run --rm -it \
   /bin/bash
 
 python3 yolov8.py --model_path ../model/yolov8.rknn --img_save --target rk3588
+
+
+
+
+docker run --rm \
+  --net=host \
+  --privileged \
+  -v $(pwd)/your_image_input_folder:/workspace/rknn_model_zoo/examples/yolov8/python/result \
+  yolov8-rknn-demo
