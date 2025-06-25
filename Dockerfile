@@ -1,29 +1,17 @@
-FROM ubuntu:20.04
+FROM rknn-toolkit2:2.3.2
 
 
-ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update \
-	&& apt-get install -y python3 python3-dev python3-pip gcc libprotobuf-dev zlib1g zlib1g-dev libsm6 \
-	&& apt-get install -y libgl1 libglib2.0-0
+COPY rknn_model_zoo-v2.3.2-2025-04-09 /workspace/rknn_model_zoo
+COPY yolov8n.onnx  /workspace/rknn_model_zoo/examples/yolov8/model
 
-RUN cd /usr/bin \
-	&& ln -sfn idle3 idle \
-	&& ln -sfn pydoc3 pydoc \
-	&& ln -sfn python3 python \
-	&& ln -sfn python3-config python-config \
-	&& ln -sfn pip3 pip \
-	&& ls -al
+WORKDIR /workspace/rknn_model_zoo/examples/yolov8/python
 
-RUN python -m pip install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple --trusted-host=pypi.tuna.tsinghua.edu.cn
-RUN pip3 config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
-RUN pip3 config set install.trusted-host pypi.tuna.tsinghua.edu.cn
+RUN python3 convert.py ../model/yolov8n.onnx rk3588
 
-RUN python3 --version
-RUN pip3 --version
-COPY rknn_toolkit2-2.3.2-cp38-cp38-manylinux_2_17_aarch64.manylinux2014_aarch64.whl rknn_toolkit2-2.3.2-cp38-cp38-manylinux_2_17_aarch64.manylinux2014_aarch64.whl
-RUN pip3 install torch==1.10.1
-RUN apt-get install -y cmake
 
-RUN pip3 install rknn_toolkit2-2.3.2-cp38-cp38-manylinux_2_17_aarch64.manylinux2014_aarch64.whl
-RUN pip3 cache purge
+COPY rknn-toolkit2-v2.3.2-2025-04-09/rknpu2/runtime/Linux/librknn_api/aarch64/librknnrt.so /usr/lib64/librknnrt.so
+COPY rknn-toolkit2-v2.3.2-2025-04-09/rknpu2/runtime/Linux/librknn_api/include/* /usr/include/
+COPY rknn-toolkit2-v2.3.2-2025-04-09/rknpu2/runtime/Linux/rknn_server/aarch64/usr/bin/* /usr/bin/
+
+CMD ["python3", "yolov8.py", "--model_path", "../model/yolov8.rknn", "--img_save", "--target", "rk3588"]
