@@ -1,0 +1,18 @@
+networks:
+    1panel-network:
+        external: true
+services:
+  yolov8-rknn-api:
+    image: yolov8-rknn-api:latest
+    container_name: yolov8-rknn-api.scet
+    networks:
+      - 1panel-network
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    deploy:
+      resources:
+        limits:
+          cpus: '4'
+          memory: 4g
+    privileged: true
