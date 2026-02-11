@@ -30,3 +30,7 @@ CMD ["/bin/bash"]
 
 
 #docker build -t rknn-yolo-cli:8 .
+#docker run --rm -it   -v $(pwd):/workspace   rknn-yolo-cli:8
+#yolo export model=yolov8n.pt format=rknn
+
+
