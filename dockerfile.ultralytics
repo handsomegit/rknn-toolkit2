@@ -1,0 +1,32 @@
+FROM rknn-toolkit2:2.3.2
+
+ENV DEBIAN_FRONTEND=noninteractive
+WORKDIR /workspace
+
+# ----------------------------
+# pip 清华源
+# ----------------------------
+RUN pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple && \
+    pip config set install.trusted-host pypi.tuna.tsinghua.edu.cn
+
+# ----------------------------
+# YOLOv8 + ONNX + RKNN CLI 依赖
+# ⚠️ ultralytics 必须 >= 8.3.x 才支持 format=rknn
+# ----------------------------
+RUN pip install --no-cache-dir \
+    ultralytics>=8.3.50 \
+    onnx \
+    onnxruntime \
+    numpy \
+    pyyaml \
+    tqdm \
+    opencv-python-headless
+
+# 有些 yolo CLI 依赖 python 命令
+RUN ln -sf /usr/bin/python3 /usr/bin/python
+
+CMD ["/bin/bash"]
+
+
+
+#docker build -t rknn-yolo-cli:8 .
