@@ -15,3 +15,5 @@ COPY rknn-toolkit2-v2.3.2-2025-04-09/rknpu2/runtime/Linux/librknn_api/include/* 
 COPY rknn-toolkit2-v2.3.2-2025-04-09/rknpu2/runtime/Linux/rknn_server/aarch64/usr/bin/* /usr/bin/
 
 CMD ["python3", "yolov8.py", "--model_path", "../model/yolov8.rknn", "--img_save", "--target", "rk3588"]
+
+# docker build -t harbor.scet.com.cn/scet/yolov8-rknn-api:latest .
