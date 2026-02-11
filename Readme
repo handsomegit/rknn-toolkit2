@@ -13,8 +13,8 @@ https://github.com/radxa-pkg/rknn2/releases
 
 
 
-
-
+查看npu负载
+watch -n 0.5 cat /sys/devices/platform/fdab0000.npu/devfreq/fdab0000.npu/load
 
 
 
